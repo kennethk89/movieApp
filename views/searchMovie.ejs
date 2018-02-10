@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>Home</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <h1>Hello movies!</h1>
+        </div>
+
+
+<% if (foundMovie) { %>
+        <div class="row">
+            <h1><%= foundMovie.title %></h1>
+            Year released: <%= foundMovie.released %><br>
+            Rated: <%= foundMovie.rated %><br>
+            Genre: <%= foundMovie.genre %><br>
+            Directed by: <%= foundMovie.director %><br>
+            Cast: <%= foundMovie.actors %><br>
+            Runtime: <%= foundMovie.runtime %><br>
+            <p><%= foundMovie.plot %></p>
+        </div>
+        <% } else { %>
+        not found 
+        <% } %>
+
+        <form action='/search' method='POST'>
+            <input name='searchTerm' />
+            <button type='submit'>Search</button>
+        </form>
+    
+    </div>
+  </body>
+</html>
