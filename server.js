@@ -2,90 +2,126 @@ const express = require('express')
 const app = express()
 const port = process.argv[2] || 8080
 const bodyParser = require('body-parser')
-
+const api = `d706a7b45b225a06e23296584454ba57`
+const request = require("request");
+const axios = require('axios')
+const movieIndex = {
+    method: 'GET',
+    url: 'https://api.themoviedb.org/4/list/3945',
+    qs: { api_key: `${api}`, page: '1' },
+    headers:
+        {
+            authorization: 'Bearer <<access_token>>',
+            'content-type': 'application/json;charset=utf-8'
+        },
+    body: {},
+    json: true
+};
+// const movieSearch = {
+//     method: 'GET',
+//     url: 'https://api.themoviedb.org/3/movie/',
+//     qs: { language: 'en-US', api_key: `${api}` },
+//     body: '{}'
+// };
 
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
-
 app.use(bodyParser.urlencoded({ extended: false }))
-
 app.use(bodyParser.json())
 
 
 
 
-app.get('/', (req, res)=>{
-    res.render('index', { movies: getMovies() })
-})
 
-app.get('/movie/:movieId', (req, res)=>{
-    let i = req.params.movieId
-    res.render('movie', { moviesId: getMovies() , i})
-})
+request(movieIndex, function (error, response, body) {
+    if (error) throw new Error(error);
 
-app.post('/search', (req, res) => {
-    let searchTerm = req.body.searchTerm
+    app.get('/', (req, res) => {
+        let startUpPage = body.results
+        res.render('index', { startUpPage })
+    })
+});
 
-    let movieList = getMovies()
-    let foundMovie = ''
+request(movieIndex, function (error, response, body) {
+    if (error) throw new Error(error);
 
-    for (let i=0; i<movieList.length; i++){
-        if (searchTerm == movieList[i].title){
-            foundMovie = movieList[i]
+    app.get('/movie/:movieId', (req, res) => {
+        let movieTitle = req.params.movieId
+        let movieAttr = {}
+
+        for (let i = 0; i < body.results.length; i++) {
+            if (movieTitle === body.results[i].title) {
+                movieAttr = body.results[i]
+            }
         }
-    }
-
-    res.render('searchMovie', { foundMovie })
-})
-
+        res.render('movie', { movieAttr })
+    })
+});
 
 
 
-function getMovies() {
-    return [{
-        title: 'Blade Runner',
-        year: '1982',
-        rated: 'R',
-        released: '25 June 1982',
-        runtime: '1h 57min',
-        genre: 'Sci-Fi, Thriller',
-        director: 'Ridley Scott',
-        writer: 'Hampton Fancher, David Peoples',
-        actors: 'Harrison Ford, Rutger Hauer, Sean Young, Edward James Olmos',
-        plot: 'A blade runner must pursue and try to terminate four replicants who stole a ship in space and have returned to Earth to find their creator.',
-        language: 'English',
-        country: 'USA, Hong Kong'
-    },
-    {
-        title: 'Osmosis',
-        year: '1724',
-        rated: 'R',
-        released: '25 June 1982',
-        runtime: '1h 57min',
-        genre: 'Sci-Fi, Thriller',
-        director: 'Ridley Scott',
-        writer: 'Hampton Fancher, David Peoples',
-        actors: 'Harrison Ford, Rutger Hauer, Sean Young, Edward James Olmos',
-        plot: 'The process in water molucules move from an area of higher concentration to a lower concentration through a partially permeable membrane.',
-        language: 'English',
-        country: 'USA, Hong Kong'
-    },
-    {
-        title: 'Periodic Table',
-        year: '1833',
-        rated: 'R',
-        released: '25 June 1982',
-        runtime: '1h 57min',
-        genre: 'Sci-Fi, Thriller',
-        director: 'Ridley Scott',
-        writer: 'Hampton Fancher, David Peoples',
-        actors: 'Harrison Ford, Rutger Hauer, Sean Young, Edward James Olmos',
-        plot: 'This super table of elements that we, humans, have discovered. Kids as young as 13 are made to memorize the first 20 elements by hard.',
-        language: 'English',
-        country: 'USA, Hong Kong'
-    }]
-}
+request(movieIndex, function (error, response, body) {
+    if (error) throw new Error(error);
 
-app.listen(port,(req, res)=>{
+    let foundMovie = {}
+
+    app.get('/search', (req, res) => {
+        let searchedMovie = req.query.searchTerm
+        let movieList = {}
+        // console.log(searchedMovie)
+        for (let i=0; i<body.results.length; i++){
+            if(body.results[i].title.toLowerCase().includes(searchedMovie.toLowerCase())){
+                movieList = body.results[i]
+            }
+        }
+
+        res.render('searchMovie', { movieList })
+    })
+
+});
+
+
+
+// app.post('/search', (req, res) => {
+//     let searchTerm = req.body.searchTerm
+//     let movieList = getMovies()
+//     let foundMovie = ''
+
+//     for (let i = 0; i < movieList.length; i++) {
+//         if (movieList[i].title.toLowerCase().includes(searchTerm.toLowerCase())) {
+//             foundMovie = movieList[i]
+//         }
+//     }
+
+//     res.render('searchMovie', { foundMovie })
+// })
+
+
+// })
+
+
+app.listen(port, (req, res) => {
     console.log(`Listening on port ${port}.`)
 })
+
+
+
+
+
+
+   
+
+
+
+// axios.get(url)
+//     .then((res) => {
+
+//         movieList = res.data
+//         // console.log(movieList)
+//         return movieList
+//     })
+//     .catch(error => {
+//         console.log('Sorry, your movie doesn\'t exist')
+//     })
+
+

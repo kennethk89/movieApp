@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Home</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.scss">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
@@ -10,23 +10,23 @@
             <h1>Hello movies!</h1>
         </div>
 
-
-<% if (foundMovie) { %>
-        <div class="row">
-            <h1><%= foundMovie.title %></h1>
-            Year released: <%= foundMovie.released %><br>
-            Rated: <%= foundMovie.rated %><br>
-            Genre: <%= foundMovie.genre %><br>
-            Directed by: <%= foundMovie.director %><br>
-            Cast: <%= foundMovie.actors %><br>
-            Runtime: <%= foundMovie.runtime %><br>
-            <p><%= foundMovie.plot %></p>
-        </div>
+        <% if (movieList) { %>
+            <div class="row">
+                <h1><%= movieList.title %></h1>
+                    <p>
+                        Release Date: <%= movieList.release_date %><br>
+                        Vote average: <%= movieList.vote_average %><br>
+                        Synopsis: <%= movieList.overview %><br>
+                        <img src='https://image.tmdb.org/t/p/w500/<%= movieList.backdrop_path %>'/>
+                    </p>
+            </div>
         <% } else { %>
-        not found 
+            Movie not found 
         <% } %>
-
-        <form action='/search' method='POST'>
+        <br>
+        <a href='/'>Back to index</a>
+        <br>
+        <form action='/search' method='GET'>
             <input name='searchTerm' />
             <button type='submit'>Search</button>
         </form>

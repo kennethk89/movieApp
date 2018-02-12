@@ -1,26 +1,22 @@
 <html>
   <head>
     <title>Home</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.scss">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
+
   <body>
     <div class="container">
-
-        <div class="row">
-
-
-
-            <h1><%= moviesId[i].title %></h1>
-            Year released: <%= moviesId[i].released %><br>
-            Rated: <%= moviesId[i].rated %><br>
-            Genre: <%= moviesId[i].genre %><br>
-            Directed by: <%= moviesId[i].director %><br>
-            Cast: <%= moviesId[i].actors %><br>
-            Runtime: <%= moviesId[i].runtime %><br>
-            <p><%= moviesId[i].plot %></p>
+      <div class="row">
+        <h1><%= movieAttr.title %></h1>
+            <p>
+              Release Date: <%= movieAttr.release_date %><br>
+              Vote average: <%= movieAttr.vote_average %><br>
+              Synopsis: <%= movieAttr.overview %><br>
+              <img src='https://image.tmdb.org/t/p/w500/<%= movieAttr.backdrop_path %>'/>
+            </p>
             <a href="/">Back to index</a>
-        </div>
+      </div>
     </div>
   </body>
 </html>

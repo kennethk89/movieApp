@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Home</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.scss">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
@@ -11,14 +11,15 @@
         </div>
 
         <div class="row">
-            <% movies.forEach((movie, i)=>{ %>
+            <% startUpPage.forEach((movie)=>{ %>
                 <h3><%= movie.title %></h3>
-                <p><%= movie.plot %></p>
-                <a href="/movie/<%= i %>">Click for more</a>
+                <img src='https://image.tmdb.org/t/p/w500/<%= movie.backdrop_path %>'/>
+                <br>
+                <a href="/movie/<%= movie.title %>">Click for more</a>
             <% }) %>
         </div>
 
-        <form action='/search' method='POST'>
+        <form action='/search' method='GET'>
             <input name='searchTerm' />
             <button type='submit'>Search</button>
         </form>
