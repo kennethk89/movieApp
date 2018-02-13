@@ -6,11 +6,11 @@
   </head>
   <body>
     <div class="container">
-        <div class="row">
+        <div class="row indexHeader">
             <h1>Hello movies!</h1>
         </div>
 
-        <div class="row">
+        <div class="row indexPage">
             <% startUpPage.forEach((movie)=>{ %>
                 <h3><%= movie.title %></h3>
                 <img src='https://image.tmdb.org/t/p/w500/<%= movie.backdrop_path %>'/>
@@ -23,7 +23,6 @@
             <input name='searchTerm' />
             <button type='submit'>Search</button>
         </form>
-    
     </div>
   </body>
 </html>
