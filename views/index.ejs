@@ -5,24 +5,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
-    <div class="container">
-        <div class="row indexHeader">
-            <h1>Hello movies!</h1>
-        </div>
 
-        <div class="row indexPage">
-            <% startUpPage.forEach((movie)=>{ %>
-                <h3><%= movie.title %></h3>
-                <img src='https://image.tmdb.org/t/p/w500/<%= movie.backdrop_path %>'/>
-                <br>
-                <a href="/movie/<%= movie.title %>">Click for more</a>
-            <% }) %>
+    <div class="container">
+        <div class="row">
+            <h1>Here's a List of Good Science Fiction Flicks</h1>
         </div>
 
         <form action='/search' method='GET'>
             <input name='searchTerm' />
             <button type='submit'>Search</button>
         </form>
+
+        <div class="row">
+            <% startUpPage.forEach((movie)=>{ %>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 img-responsive">                
+                    <h3><%= movie.title %></h3>
+                    <img class = "indexImages" src='https://image.tmdb.org/t/p/w500/<%= movie.backdrop_path %>'/>
+                    <br>
+                    <a href="/movie/<%= movie.title %>">Click for more</a>
+                </div>
+            <% }) %>
+        </div>
     </div>
   </body>
 </html>

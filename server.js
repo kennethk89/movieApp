@@ -57,8 +57,9 @@ request(movieIndex, function (error, response, body) {
         for (let i = 0; i < body.results.length; i++) {
             if (body.results[i].title.toLowerCase().includes(searchedMovie.toLowerCase())) {
                 movieList = body.results[i]
-            } 
+            }
         }
+
         res.render('searchMovie', { movieList })
     })
 });
